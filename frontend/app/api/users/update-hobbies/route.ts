@@ -6,15 +6,28 @@ export async function POST(request: Request) {
         const body = await request.json();
         const { clerkId, hobbies } = body;
 
-        // First, delete all existing user hobbies
+        // First, get the user ID from the clerkId
+        const user = await prisma.user.findUnique({
+            where: { clerkId },
+            select: { id: true }
+        });
+
+        if (!user) {
+            return NextResponse.json(
+                { success: false, error: "User not found" },
+                { status: 404 }
+            );
+        }
+
+        // Delete all existing user hobbies
         await prisma.userHobby.deleteMany({
-            where: { user: { clerkId } },
+            where: { userId: user.id },
         });
 
         // Then create new user hobbies
         const userHobbies = await prisma.userHobby.createMany({
             data: hobbies.map((hobbyId: number) => ({
-                userId: clerkId,
+                userId: user.id,
                 hobbyId,
             })),
         });

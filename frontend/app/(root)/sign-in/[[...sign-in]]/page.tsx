@@ -1,6 +1,5 @@
 import React from 'react'
 import { SignIn } from '@clerk/nextjs'
-import Image from 'next/image'
 
 const SignInPage = () => {
     return (

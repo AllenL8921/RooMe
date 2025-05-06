@@ -21,6 +21,9 @@ export async function POST(request: Request) {
             maxBudget,
         } = body;
 
+        // Convert maxBudget to integer if it exists
+        const maxBudgetInt = maxBudget ? parseInt(maxBudget) : null;
+
         // Update or create user profile
         const user = await prisma.user.upsert({
             where: { clerkId },
@@ -36,8 +39,8 @@ export async function POST(request: Request) {
                 cleanliness,
                 smoking,
                 pets,
-                min_budget: minBudget,
-                max_budget: maxBudget,
+                min_budget: minBudget ? parseInt(minBudget) : null,
+                max_budget: maxBudgetInt,
             },
             create: {
                 clerkId,
@@ -52,8 +55,8 @@ export async function POST(request: Request) {
                 cleanliness,
                 smoking,
                 pets,
-                min_budget: minBudget,
-                max_budget: maxBudget,
+                min_budget: minBudget ? parseInt(minBudget) : null,
+                max_budget: maxBudgetInt,
             },
         });
 
