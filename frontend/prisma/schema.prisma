@@ -39,7 +39,12 @@ model User {
   posts     Post[]
   UserHobby UserHobby[]
   interestedListings Listing[] @relation("ListingInterestPool")
-
+  
+  // New relations for matching
+  sentLikes     Like[]    @relation("SentLikes")
+  receivedLikes Like[]    @relation("ReceivedLikes")
+  sentMatches     Match[]    @relation("SentMatches")
+  receivedMatches Match[]    @relation("ReceivedMatches")
 }
 
 model Hobby {
@@ -103,4 +108,29 @@ model Post {
   updatedAt DateTime @updatedAt
   clerkId   String
   user      User     @relation(fields: [clerkId], references: [clerkId])
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  fromUserId Int
+  toUserId   Int
+  createdAt DateTime @default(now())
+
+  fromUser User @relation("SentLikes", fields: [fromUserId], references: [id])
+  toUser   User @relation("ReceivedLikes", fields: [toUserId], references: [id])
+
+  @@unique([fromUserId, toUserId])
+}
+
+model Match {
+  id        Int      @id @default(autoincrement())
+  user1Id   Int
+  user2Id   Int
+  createdAt DateTime @default(now())
+  isActive  Boolean  @default(true)
+
+  user1 User @relation("SentMatches", fields: [user1Id], references: [id])
+  user2 User @relation("ReceivedMatches", fields: [user2Id], references: [id])
+
+  @@unique([user1Id, user2Id])
 }

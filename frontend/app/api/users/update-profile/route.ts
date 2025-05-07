@@ -21,7 +21,11 @@ export async function POST(request: Request) {
             maxBudget,
         } = body;
 
-        // Convert maxBudget to integer if it exists
+        // Convert string values to integers
+        const cleanlinessInt = cleanliness ? parseInt(cleanliness) : null;
+        const smokingInt = smoking ? parseInt(smoking) : null;
+        const petsInt = pets ? parseInt(pets) : null;
+        const minBudgetInt = minBudget ? parseInt(minBudget) : null;
         const maxBudgetInt = maxBudget ? parseInt(maxBudget) : null;
 
         // Update or create user profile
@@ -36,10 +40,10 @@ export async function POST(request: Request) {
                 date_of_birth: new Date(dateOfBirth),
                 bio,
                 location,
-                cleanliness,
-                smoking,
-                pets,
-                min_budget: minBudget ? parseInt(minBudget) : null,
+                cleanliness: cleanlinessInt,
+                smoking: smokingInt,
+                pets: petsInt,
+                min_budget: minBudgetInt,
                 max_budget: maxBudgetInt,
             },
             create: {
@@ -52,10 +56,10 @@ export async function POST(request: Request) {
                 date_of_birth: new Date(dateOfBirth),
                 bio,
                 location,
-                cleanliness,
-                smoking,
-                pets,
-                min_budget: minBudget ? parseInt(minBudget) : null,
+                cleanliness: cleanlinessInt,
+                smoking: smokingInt,
+                pets: petsInt,
+                min_budget: minBudgetInt,
                 max_budget: maxBudgetInt,
             },
         });

@@ -104,7 +104,7 @@ export default function CreateListingForm() {
 
                     <div>
                         <label htmlFor="price" className="block text-sm font-medium mb-1">
-                            Price (in cents) *
+                            Price
                         </label>
                         <input
                             type="number"
@@ -258,11 +258,33 @@ export default function CreateListingForm() {
                     </div>
                 </div>
 
+                {/* Listing Images Section */}
+                <div className="space-y-4">
+                    <h2 className="text-xl font-semibold">Listing Images</h2>
+                    <div>
+                        <label htmlFor="listing_images" className="block text-sm font-medium mb-1">
+                            Upload Images
+                        </label>
+                        <input
+                            type="file"
+                            id="listing_images"
+                            name="listing_images"
+                            accept="image/*"
+                            multiple
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                    <div id="image_preview" className="grid grid-cols-2 gap-2 mt-2">
+                        {/* Image previews will be inserted here via JavaScript */}
+                    </div>
+                </div>
+
                 <button
                     type="submit"
                     className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    disabled={loading}
                 >
-                    Create Listing
+                    {loading ? 'Creating...' : 'Create Listing'}
                 </button>
             </form>
 
