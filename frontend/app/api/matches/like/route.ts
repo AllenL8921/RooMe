@@ -7,7 +7,7 @@ export async function POST(request: Request) {
         const { fromUserId, toUserId } = body;
 
         // Create a like
-        const like = await prisma.Like.create({
+        const like = await prisma.like.create({
             data: {
                 fromUserId,
                 toUserId,
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
         });
 
         // Check if there's a mutual match
-        const mutualLike = await prisma.Like.findUnique({
+        const mutualLike = await prisma.like.findUnique({
             where: {
                 fromUserId_toUserId: {
                     fromUserId: toUserId,
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
         if (mutualLike) {
             // Create a match
-            const match = await prisma.Match.create({
+            const match = await prisma.match.create({
                 data: {
                     user1Id: fromUserId,
                     user2Id: toUserId,
