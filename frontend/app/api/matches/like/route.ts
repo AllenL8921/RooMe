@@ -6,6 +6,24 @@ export async function POST(request: Request) {
         const body = await request.json();
         const { fromUserId, toUserId } = body;
 
+        // Check if a like already exists
+        const existingLike = await prisma.like.findUnique({
+            where: {
+                fromUserId_toUserId: {
+                    fromUserId,
+                    toUserId,
+                },
+            },
+        });
+
+        if (existingLike) {
+            return NextResponse.json({
+                success: true,
+                match: false,
+                likeData: existingLike,
+            });
+        }
+
         // Create a like
         const like = await prisma.like.create({
             data: {

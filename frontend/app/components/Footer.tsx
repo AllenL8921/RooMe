@@ -80,7 +80,7 @@ const Footer = () => {
             </div>
 
             <div className="mt-8 border-t border-gray-700 pt-4 text-center text-sm text-gray-500">
-                <p>&copy; 2025 Your Company. All Rights Reserved.</p>
+                <p>&copy; 2025 RooME. All Rights Reserved.</p>
             </div>
         </footer>
     );

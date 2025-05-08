@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { User, UserHobby, Hobby } from "@prisma/client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -23,6 +23,7 @@ export default function MatchClient({ currentUser, matches }: MatchClientProps) 
     const [direction, setDirection] = useState(0);
     const [showMatch, setShowMatch] = useState(false);
     const [matchedUser, setMatchedUser] = useState<User | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
 
     const currentMatch = matches[currentMatchIndex];
 
@@ -44,33 +45,50 @@ export default function MatchClient({ currentUser, matches }: MatchClientProps) 
             if (data.success && data.match) {
                 setMatchedUser(currentMatch);
                 setShowMatch(true);
+                setMessage(`It's a match! You and ${currentMatch.firstName} can now chat.`);
+            } else {
+                setMessage(`You liked ${currentMatch.firstName}.`);
             }
 
             setDirection(1);
-            setTimeout(() => {
-                setCurrentMatchIndex((prev) => (prev + 1) % matches.length);
-                setDirection(0);
-            }, 300);
+            setCurrentMatchIndex((prev) => {
+                const nextIndex = prev + 1;
+                return nextIndex >= matches.length ? matches.length : nextIndex;
+            });
+            setDirection(0);
         } catch (error) {
             console.error("Error liking user:", error);
         }
     };
 
     const handleDislike = () => {
+        setMessage(`You disliked ${currentMatch.firstName}.`);
         setDirection(-1);
-        setTimeout(() => {
-            setCurrentMatchIndex((prev) => (prev + 1) % matches.length);
-            setDirection(0);
-        }, 300);
+        setCurrentMatchIndex((prev) => {
+            const nextIndex = prev + 1;
+            return nextIndex >= matches.length ? matches.length : nextIndex;
+        });
+        setDirection(0);
     };
 
-    if (matches.length === 0) {
+
+    // Clear message after 3 seconds
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage(null);
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
+
+    if (matches.length === 0 || currentMatchIndex >= matches.length) {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-4">No Matches Found</h1>
+                    <h1 className="text-2xl font-bold mb-4">No More Matches</h1>
                     <p className="text-gray-600 mb-4">
-                        We couldn&apos;t find any potential roommates that match your preferences.
+                        You&apos;ve gone through all the potential matches. Check back later for more!
                     </p>
                     <Link
                         href="/profile/hobbies"
@@ -87,94 +105,103 @@ export default function MatchClient({ currentUser, matches }: MatchClientProps) 
         <div className="min-h-screen py-8 px-4 bg-gray-100">
             <div className="max-w-md mx-auto">
                 <h1 className="text-3xl font-bold text-center mb-8">Find Your Roommate</h1>
+                <p className="text-center text-gray-600 mb-4">You have {matches.length} potential matches</p>
+
+                {message && (
+                    <div className="text-center text-blue-600 mb-4">
+                        {message}
+                    </div>
+                )}
 
                 <div className="relative h-[600px]">
                     <AnimatePresence>
-                        <motion.div
-                            key={currentMatchIndex}
-                            initial={{
-                                x: direction === 1 ? 500 : direction === -1 ? -500 : 0,
-                                opacity: 0,
-                                rotate: direction === 1 ? 30 : direction === -1 ? -30 : 0
-                            }}
-                            animate={{
-                                x: 0,
-                                opacity: 1,
-                                rotate: 0
-                            }}
-                            exit={{
-                                x: direction === 1 ? 500 : -500,
-                                opacity: 0,
-                                rotate: direction === 1 ? 30 : -30
-                            }}
-                            transition={{ duration: 0.3 }}
-                            className="absolute w-full"
-                            style={{ zIndex: 10 }}
-                        >
-                            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                                <div className="h-[400px] bg-gray-200 relative">
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="text-6xl text-gray-400">
-                                            {(currentMatch.firstName?.[0] || "U").toUpperCase()}
-                                        </span>
+                        {currentMatchIndex < matches.length && (
+                            <motion.div
+                                key={currentMatchIndex}
+                                initial={{
+                                    x: direction === 1 ? 500 : direction === -1 ? -500 : 0,
+                                    opacity: 0,
+                                    rotate: direction === 1 ? 30 : direction === -1 ? -30 : 0
+                                }}
+                                animate={{
+                                    x: 0,
+                                    opacity: 1,
+                                    rotate: 0
+                                }}
+                                exit={{
+                                    x: direction === 1 ? 500 : -500,
+                                    opacity: 0,
+                                    rotate: direction === 1 ? 30 : -30
+                                }}
+                                transition={{ duration: 0.3 }}
+                                className="absolute w-full"
+                                style={{ zIndex: 10 }}
+                            >
+                                <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <div className="h-[400px] bg-gray-200 relative">
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <span className="text-6xl text-gray-400">
+                                                {(currentMatch.firstName?.[0] || "U").toUpperCase()}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="p-6">
-                                    <h2 className="text-2xl font-semibold mb-2">
-                                        {currentMatch.firstName} {currentMatch.lastName}
-                                    </h2>
-                                    {currentMatch.location && (
-                                        <p className="text-gray-500 mb-4">{currentMatch.location}</p>
-                                    )}
+                                    <div className="p-6">
+                                        <h2 className="text-2xl font-semibold mb-2">
+                                            {currentMatch.firstName} {currentMatch.lastName}
+                                        </h2>
+                                        {currentMatch.location && (
+                                            <p className="text-gray-500 mb-4">{currentMatch.location}</p>
+                                        )}
 
-                                    <div className="space-y-4">
-                                        <div>
-                                            <h3 className="font-semibold text-gray-700 mb-2">Preferences</h3>
-                                            <div className="grid grid-cols-2 gap-2">
-                                                <div>
-                                                    <p className="text-gray-600">Cleanliness</p>
-                                                    <p className="font-medium">{currentMatch.cleanliness || "Not specified"}</p>
+                                        <div className="space-y-4">
+                                            <div>
+                                                <h3 className="font-semibold text-gray-700 mb-2">Preferences</h3>
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    <div>
+                                                        <p className="text-gray-600">Cleanliness</p>
+                                                        <p className="font-medium">{currentMatch.cleanliness || "Not specified"}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-gray-600">Smoking</p>
+                                                        <p className="font-medium">{currentMatch.smoking || "Not specified"}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-gray-600">Pets</p>
+                                                        <p className="font-medium">{currentMatch.pets || "Not specified"}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-gray-600">Budget</p>
+                                                        <p className="font-medium">
+                                                            {currentMatch.min_budget && currentMatch.max_budget
+                                                                ? `$${currentMatch.min_budget} - $${currentMatch.max_budget}`
+                                                                : "Not specified"}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="text-gray-600">Smoking</p>
-                                                    <p className="font-medium">{currentMatch.smoking || "Not specified"}</p>
-                                                </div>
-                                                <div>
-                                                    <p className="text-gray-600">Pets</p>
-                                                    <p className="font-medium">{currentMatch.pets || "Not specified"}</p>
-                                                </div>
-                                                <div>
-                                                    <p className="text-gray-600">Budget</p>
-                                                    <p className="font-medium">
-                                                        {currentMatch.min_budget && currentMatch.max_budget
-                                                            ? `$${currentMatch.min_budget} - $${currentMatch.max_budget}`
-                                                            : "Not specified"}
-                                                    </p>
+                                            </div>
+
+                                            <div>
+                                                <h3 className="font-semibold text-gray-700 mb-2">Shared Hobbies</h3>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {currentMatch.UserHobby.filter(uh =>
+                                                        currentUser.UserHobby.some(
+                                                            currentUh => currentUh.hobbyId === uh.hobbyId
+                                                        )
+                                                    ).map(({ hobby }) => (
+                                                        <span
+                                                            key={hobby.id}
+                                                            className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                                                        >
+                                                            {hobby.name}
+                                                        </span>
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div>
-                                            <h3 className="font-semibold text-gray-700 mb-2">Shared Hobbies</h3>
-                                            <div className="flex flex-wrap gap-2">
-                                                {currentMatch.UserHobby.filter(uh =>
-                                                    currentUser.UserHobby.some(
-                                                        currentUh => currentUh.hobbyId === uh.hobbyId
-                                                    )
-                                                ).map(({ hobby }) => (
-                                                    <span
-                                                        key={hobby.id}
-                                                        className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-                                                    >
-                                                        {hobby.name}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        )}
                     </AnimatePresence>
                 </div>
 
