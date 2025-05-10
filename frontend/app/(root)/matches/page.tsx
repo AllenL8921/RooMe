@@ -2,6 +2,8 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/utils/prisma/client";
 import MatchesClient from "./MatchesClient";
 
+export const dynamic = 'force-dynamic';
+
 export default async function MatchesPage() {
     try {
         const { userId } = await auth();

@@ -3,6 +3,8 @@ import { prisma } from "@/utils/prisma/client";
 import MatchClient from "./MatchClient";
 import { Prisma } from "@prisma/client";
 
+export const dynamic = 'force-dynamic';
+
 export default async function MatchPage() {
     try {
         const { userId } = await auth();

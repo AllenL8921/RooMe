@@ -3,15 +3,17 @@ import { prisma } from "@/utils/prisma/client";
 import ProfileClient from "./ProfileClient";
 import { redirect } from "next/navigation";
 
-interface Props {
-    params: {
+type Props = {
+    params: Promise<{
         id: string;
-    };
+    }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function ProfilePage({ params }: Props) {
+export default async function ProfilePage({ params, searchParams }: Props) {
     const { userId: currentUserId } = await auth();
-    const { id: userId } = params;
+    const { id: userId } = await params;
+    await searchParams; // Ensure searchParams is resolved
     const isOwnProfile = currentUserId === userId;
 
     // If it's the current user's profile and they don't exist in our database yet,
