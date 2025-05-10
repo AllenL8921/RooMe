@@ -1,4 +1,8 @@
+'use server';
+
 import { prisma } from "@/utils/prisma/client";
+
+
 
 // Create a new listing
 export async function createListing(listingData: {
@@ -39,6 +43,7 @@ export async function createListing(listingData: {
                 },
             },
         });
+
         return newListing;
     } catch (error) {
         console.error("Error creating listing:", error);
@@ -62,6 +67,13 @@ export async function getAllListings() {
                 createdAt: 'desc',
             },
         });
+
+        // Check if listing is empty
+        if (listings.length === 0) {
+            console.log('No listings found');
+            return [];
+        }
+
         return listings;
     } catch (error) {
         console.error("Error fetching listings:", error);

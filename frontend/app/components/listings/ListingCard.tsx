@@ -31,7 +31,6 @@ interface ListingCardProps {
 
 const ListingCard: React.FC<ListingCardProps> = ({ listing, isOwner = false }) => {
     const router = useRouter();
-    const { userId } = useAuth();
     const [isDeleting, setIsDeleting] = React.useState(false);
 
     const handleDelete = async () => {

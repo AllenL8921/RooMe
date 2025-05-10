@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getAllListings } from "@/app/actions/listings/getAllListings";
+import { getAllListings } from "@/app/actions/listings/listingActions";
 import ListingCard from "@/app/components/listings/ListingCard";
 import { useAuth } from "@clerk/nextjs";
 import { Input } from '@/components/ui/input';

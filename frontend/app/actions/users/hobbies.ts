@@ -15,6 +15,20 @@ export async function addHobbiesToUser(clerkId: string, hobbyIds: number[]) {
             return { success: false, error: 'User not found' }
         }
 
+        // Check if each hobby exists, if not, create it
+        for (const hobbyId of hobbyIds) {
+            const hobby = await prisma.hobby.findUnique({
+                where: { id: hobbyId }
+            })
+
+            if (!hobby) {
+                // Create the hobby if it doesn't exist
+                await prisma.hobby.create({
+                    data: { id: hobbyId, name: `Hobby ${hobbyId}` } // You might want to provide a name or other details
+                })
+            }
+        }
+
         // Add the hobbies to the user
         await prisma.userHobby.createMany({
             data: hobbyIds.map(hobbyId => ({

@@ -1,17 +1,30 @@
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/utils/prisma/client";
 import ProfileClient from "./ProfileClient";
+import { redirect } from "next/navigation";
 
 interface Props {
-    params: Promise<{
-        userId: string;
-    }>;
+    params: {
+        id: string;
+    };
 }
 
 export default async function ProfilePage({ params }: Props) {
     const { userId: currentUserId } = await auth();
-    const { userId } = await params;
+    const { id: userId } = params;
     const isOwnProfile = currentUserId === userId;
+
+    // If it's the current user's profile and they don't exist in our database yet,
+    // redirect them to the onboarding page
+    if (isOwnProfile) {
+        const user = await prisma.user.findUnique({
+            where: { clerkId: userId }
+        });
+
+        if (!user) {
+            redirect('/onboard');
+        }
+    }
 
     // Fetch user data
     const user = await prisma.user.findUnique({
