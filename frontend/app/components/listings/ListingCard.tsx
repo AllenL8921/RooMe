@@ -74,7 +74,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, isOwner = false }) =
                 <div className="p-4">
                     <h2 className="text-xl font-semibold mb-2">{listing.title}</h2>
                     <p className="text-gray-600 mb-2">{listing.description}</p>
-                    <p className="text-lg font-bold text-blue-600">${listing.price / 100} / mo</p>
+                    <p className="text-lg font-bold text-blue-600">${listing.price} / mo</p>
                     {listing.location && (
                         <p className="text-sm text-gray-500 mt-2">{listing.location}</p>
                     )}

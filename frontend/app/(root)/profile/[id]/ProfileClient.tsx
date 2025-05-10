@@ -104,7 +104,7 @@ export default function ProfileClient({ user, isOwnProfile }: ProfileClientProps
                                         Manage Hobbies
                                     </Link>
                                     <Link
-                                        href={`/listings/${user.clerkId}`}
+                                        href={`/listings/myListings`}
                                         className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
                                     >
                                         View My Listings

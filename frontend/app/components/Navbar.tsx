@@ -45,6 +45,12 @@ export default function Navbar() {
                                     Find Matches
                                 </Link>
                                 <Link
+                                    href="/matches"
+                                    className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
+                                >
+                                    My Matches
+                                </Link>
+                                <Link
                                     href={`/profile/${userId}`}
                                     className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
                                 >
