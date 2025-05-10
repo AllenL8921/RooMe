@@ -1,7 +1,14 @@
 import React from 'react';
 import { getListingById } from '@/app/actions/listings/listingActions';
 
-const ListingDetailPage = async ({ params }: { params: { id: string } }) => {
+type Props = {
+    params: {
+        id: string;
+    };
+    searchParams: { [key: string]: string | string[] | undefined };
+};
+
+const ListingDetailPage = async ({ params }: Props) => {
     const listing = await getListingById(parseInt(params.id));
     console.log(listing);
 
