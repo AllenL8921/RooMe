@@ -1,13 +1,13 @@
 import React from 'react';
 import { getListingById, getUserListings } from '@/app/actions/listings/listingActions';
 
-interface PageProps {
+interface ListingPageProps {
     params: {
         id: string;
     }
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: ListingPageProps) {
     try {
         const id = params.id;
 
