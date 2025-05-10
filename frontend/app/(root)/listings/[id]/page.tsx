@@ -2,14 +2,14 @@ import React from 'react';
 import { getListingById, getUserListings } from '@/app/actions/listings/listingActions';
 
 interface ListingPageProps {
-    params: {
+    listingParams: {
         id: string;
     }
 }
 
-export default async function Page({ params }: ListingPageProps) {
+export default async function Page({ listingParams }: ListingPageProps) {
     try {
-        const id = params.id;
+        const id = listingParams.id;
 
         // Check if the ID is a Clerk user ID (starts with 'user_')
         if (id.startsWith('user_')) {
