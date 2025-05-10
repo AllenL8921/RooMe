@@ -1,14 +1,14 @@
 import React from 'react';
 import { getListingById } from '@/app/actions/listings/listingActions';
 
-type Props = {
+interface PageProps {
     params: {
         id: string;
     };
     searchParams: { [key: string]: string | string[] | undefined };
-};
+}
 
-const ListingDetailPage = async ({ params }: Props) => {
+export default async function ListingDetailPage({ params }: PageProps) {
     const listing = await getListingById(parseInt(params.id));
     console.log(listing);
 
@@ -53,6 +53,4 @@ const ListingDetailPage = async ({ params }: Props) => {
             </ul>
         </div>
     );
-};
-
-export default ListingDetailPage
+}
