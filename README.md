@@ -1,11 +1,8 @@
-# DatingDisguisedAsRoomiesFinder
- Deep Fake Roommates matching app for ex-craigslist-goers 
- # Dating app Disguised As Roomies Finder
- # Dating Disguised As Roomies Finder - Design Document
+# RooME
  
- **Deep Fake Roommates Matching App for Ex-Craigslist Goers**
+ **Roommate Matching App**
  
- Welcome to the *Dating Disguised As Roomies Finder*, an innovative app aimed at helping people find their perfect roommates in a modern, Tinder-like experience. For renters and seekers looking to find compatible living arrangements, we provide a fun, yet practical solution by integrating deep fake technology to match people who not only fit the ideal lifestyle but also share common interests.
+Welcome to the *RooME*, an innovative app aimed at helping people find their perfect roommates in a modern, Tinder-like experience. For renters and seekers looking to find compatible living arrangements.
  
  ---
  
@@ -28,14 +25,13 @@
  
  ## Overview
  
- The **Deep Fake Roommates** app is designed to cater to individuals transitioning from platforms like Craigslist to a more modern, user-friendly, and personalized roommate search tool. The core concept of the app is to match users based on personality traits, preferences, lifestyle choices, and housing needs. Deep fake technology can be used for fun profile pictures and to enhance the matching algorithm based on users’ preferences and interaction styles.
+ The **RoOME** app is designed to cater to individuals looking for a more modern, user-friendly, and personalized roommate search tool. The core concept of the app is to match users based on personality traits, preferences, lifestyle choices, and housing needs. 
  
  ---
  
  ## Key Features
  
  - **Profile Matching**: Matches individuals based on shared interests, lifestyles, budgets, and location preferences.
- - **Deep Fake Technology**: Use AI-generated images for fun, creative profile pictures, or avatars for enhanced user engagement.
  - **Swipe-to-Match**: Similar to Tinder, users swipe left to reject or right to accept potential roommates.
  - **In-App Messaging**: Users can chat with potential roommates before deciding to meet in person.
  - **Location-Based Searching**: Matches users based on geographic proximity.
@@ -58,12 +54,12 @@
  |  Data (Location,  |       |  Compatibility    |
  |  Budget, Likes)   |       |  Score Calculators|
  +-------------------+       +-------------------+
-         |                           |
-         v                           v
- +-------------------+       +-------------------+
- |  Matchmaking      |       |   Deep Fake AI    |
- |  Algorithm        | <---> |   Profile Image   |
- +-------------------+       +-------------------+
+         |                           
+         v                           
+ +-------------------+       
+ |  Matchmaking      |       
+ |  Algorithm        | 
+ +-------------------+      
          |
          v
  +-------------------+
@@ -124,10 +120,6 @@
  
  **4. Messaging Routine**
  - Once matched, users can message each other to discuss the living situation, schedule meetings, and further assess compatibility.
- 
- **5. Deep Fake Profile Generation Routine**
- - Users have the option to use a deep fake-generated image (based on AI technology) for their profile picture.
- - The deep fake technology allows for fun, creative avatars or images that represent the user’s personality or interests.
  
  ---
  
@@ -193,21 +185,12 @@
  - Compatibility is based on shared attributes such as cleanliness, lifestyle, budget, and pet preferences.
  - Each attribute is assigned a weight, and the system calculates an overall compatibility score between two users.
  
- ### **2. Deep Fake Profile Matching**
- - The deep fake profile image can be analyzed using facial recognition or aesthetic preferences to match users based on appearance or style preferences.
- 
  ---
  
  ## Next Steps
- 
- To turn this concept into a fully functioning app, the following tasks are next:
- 
- 1. **Prototype Development**: Start by building the front-end prototype, which includes the profile page, swipe functionality, and messaging system.
- 2. **Algorithm Implementation**: Implement the roommate matching algorithm, including the scoring system and profile data parsing.
- 3. **AI Integration**: Integrate deep fake technology to allow users to generate or upload creative profile images.
- 4. **Testing**: Conduct user testing to refine the app's features and improve the matching process.
- 5. **Deployment**: Deploy the app on mobile platforms (iOS/Android) and web.
- 
+  
+ 1. **Reviews**: Allow Users to see ratings and reviews from previous roommates. Use reliability scores (like Uber ratings) to highlight trustworthy users.
+ 2. **Integrated Expense Tracker**: Built-in tool to split rent, utilities, and grocery bills automatically. Optional integrations with Venmo, PayPal, or direct bank transfers
+ 3. **Verification + Safety Features**: ID verification, social media linkage, and optional background checks. Users can report suspicious behavior and block others.
+ 4. **Smart Alerts + Map-Based Search**: Users can set up alerts for new rooms within a specific budget and neighborhood. Real-time map allows users to compare commute times, nearby transit, and local amenities.
  ---
- 
- Feel free to copy the structure above, modify the data, or add specific sections as needed. This document should help guide the development of your **Dating Disguised As Roomies Finder** app. Let me know if you need further adjustments!
